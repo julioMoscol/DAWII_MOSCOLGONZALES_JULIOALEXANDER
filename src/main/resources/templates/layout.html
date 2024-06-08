@@ -28,9 +28,14 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{/auth/cambiarcontrasena}">Cambiar Password</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><button type="submit"  class="dropdown-item" th:action="@{auth/cerrar-sesion}" method="post">
-                            <i class="fas fa-save"></i>
-                            Cerrar Sesion</button></li>
+                        <li>
+                            <form th:action="@{/auth/cerrar-sesion}" method="post">
+                                <button type="submit" class="dropdown-item">
+                                    <i class="fas fa-save"></i>
+                                    Cerrar Sesion
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>
