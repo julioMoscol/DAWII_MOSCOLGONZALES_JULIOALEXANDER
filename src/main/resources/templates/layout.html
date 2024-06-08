@@ -42,7 +42,8 @@
         </div>
     </div>
 </nav>
-
-
+<div th:fragment="nombre">
+    <span class="p-2">Bienvenido(a): <span id="user_id" class="fw-bold"  th:text="${username}"></span></span>
+</div>
 </body>
 </html>

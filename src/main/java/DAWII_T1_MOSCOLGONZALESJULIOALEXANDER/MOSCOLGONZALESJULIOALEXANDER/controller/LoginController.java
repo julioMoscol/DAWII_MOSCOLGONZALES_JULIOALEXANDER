@@ -47,22 +47,31 @@ public class LoginController {
     }
 
     @GetMapping("/cambiarcontrasena")
-    public String cambiarcontrasena(){
+    public String cambiarcontrasena(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         return "auth/cambiarcontrasena";
     }
 
     @PostMapping("/contrasenacambiada")
-    public String contrasenacambiada(Usuario usuario){
-        usuarioService.buscarUsuarioXNom(usuario.getNomusuario());
-        usuarioService.actualizarContrasena(usuario);
-        return "redirect:/auth/dashboard";
+    public String contrasenacambiada(@RequestParam String username, @RequestParam String password, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        model.addAttribute("username", username);
+        Usuario usuario = usuarioService.buscarUsuarioXNom(username);
+        if (usuario != null) {
+            usuario.setPassword(password);
+            usuarioService.actualizarContrasena(usuario);
+            return "redirect:/auth/dashboard";
+        } else {
+            return "redirect:/auth/cambiarcontrasena?error";
+        }
     }
 
     @GetMapping("/cerrar-sesion")
     public String cerrarSesion(HttpSession session) {
-        // Invalidar la sesión
         session.invalidate();
-        // Redirigir a la página de inicio de sesión
         return "redirect:/auth/login";
     }
 }
